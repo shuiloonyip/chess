@@ -182,7 +182,7 @@ function Board() {
   ];
 
   // prettier-ignore
-  return <div>
+  return <div className="grid grid-cols-8 grid-rows-8">
   {[
     [<Tile />, <Tile />, <Tile />, <Tile />, <Tile />, <Tile />, <Tile />, <Tile />],
     [<Tile />, <Tile />, <Tile />, <Tile />, <Tile />, <Tile />, <Tile />, <Tile />],
