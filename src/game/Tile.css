@@ -1,7 +1,6 @@
 .tile {
   height: 100px;
   width: 100px;
-  border: 1px solid black;
 }
 
 .label {
@@ -9,11 +8,11 @@
 }
 
 .black {
-  background-color: black;
-  color: white;
+  background-color: #8ca2ad;
+  color: #dee3e6;
 }
 
 .white {
-  background-color: white;
-  color: black;
+  background-color: #dee3e6;
+  color: #8ca2ad;
 }
