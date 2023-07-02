@@ -72,15 +72,16 @@ function Board() {
     boardArr.push(rowArr);
   }
 
-  const boardRender = boardArr.map((row, index) => {
+  const boardRender = boardArr.map((row, i) => {
     return (
-      <div className="row" key={rowLabel[index]}>
-        {row.map((tile) => {
+      <div className="row" key={rowLabel[i]}>
+        {row.map((tile, j) => {
           return (
             <Tile
               key={tile.square}
               tileColor={tile.tileColor}
               square={tile.square}
+              piece={DUMMYDATA[i][j]}
             />
           );
         })}
