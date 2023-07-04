@@ -7,6 +7,7 @@ function Board() {
   const initialChessObj = new Chess();
 
   const [chessObj, setChessObj] = useState(initialChessObj);
+  const [selectedPiece, setSelectPiece] = useState("");
 
   const rowLabel = ["8", "7", "6", "5", "4", "3", "2", "1"];
   const columnLabel = ["a", "b", "c", "d", "e", "f", "g", "h"];
@@ -41,12 +42,18 @@ function Board() {
               tileColor={tile.tileColor}
               square={tile.square}
               piece={chessObj.board()[i][j]}
+              onClickMove={handleClickMove}
+              isSelected={selectedPiece === tile.square}
             />
           );
         })}
       </div>
     );
   });
+
+  function handleClickMove(square) {
+    setSelectPiece(square);
+  }
 
   return <div className="board">{boardRender}</div>;
 }
