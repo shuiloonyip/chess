@@ -1,9 +1,9 @@
 import { Chess } from "chess.js";
+import { createBoard } from "../util";
 
 export function chessReducer(state, action) {
   switch (action.type) {
     case "SELECTED": {
-      console.log(state);
       return { ...state, selectedPiece: action.payload.square };
     }
   }
@@ -11,5 +11,5 @@ export function chessReducer(state, action) {
 
 export function createInitialState() {
   const initialChessObj = new Chess();
-  return { chessObj: initialChessObj, selectedPiece: "" };
+  return { chessObj: initialChessObj, selectedPiece: "", board: createBoard() };
 }
