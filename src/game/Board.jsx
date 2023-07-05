@@ -1,13 +1,10 @@
-import { useState } from "react";
-import { Chess } from "chess.js";
+import { useReducer } from "react";
 import Tile from "./Tile";
+import { chessReducer, createInitialState } from "../reducer";
 import "./Board.css";
 
 function Board() {
-  const initialChessObj = new Chess();
-
-  const [chessObj, setChessObj] = useState(initialChessObj);
-  const [selectedPiece, setSelectPiece] = useState("");
+  const [state, dispatch] = useReducer(chessReducer, null, createInitialState);
 
   const rowLabel = ["8", "7", "6", "5", "4", "3", "2", "1"];
   const columnLabel = ["a", "b", "c", "d", "e", "f", "g", "h"];
@@ -41,9 +38,9 @@ function Board() {
               key={tile.square}
               tileColor={tile.tileColor}
               square={tile.square}
-              piece={chessObj.board()[i][j]}
+              piece={state.chessObj.board()[i][j]}
               onClickMove={handleClickMove}
-              isSelected={selectedPiece === tile.square}
+              isSelected={state.selectedPiece === tile.square}
             />
           );
         })}
@@ -52,7 +49,10 @@ function Board() {
   });
 
   function handleClickMove(square) {
-    setSelectPiece(square);
+    dispatch({
+      type: "SELECTED",
+      payload: { square: square },
+    });
   }
 
   return <div className="board">{boardRender}</div>;
