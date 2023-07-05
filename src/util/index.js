@@ -1,25 +1,45 @@
-export function createBoard() {
-  const boardArr = [];
+// [
+//   [
+//     { square: "a8", tileColor: "w" },
+//     { square: "b8", tileColor: "b" },
+//     { square: "c8", tileColor: "w" },
+//     { square: "d8", tileColor: "b" },
+//     { square: "e8", tileColor: "w" },
+//     { square: "f8", tileColor: "b" },
+//     { square: "g8", tileColor: "w" },
+//     { square: "h8", tileColor: "b" },
+//   ],
+//   [...],
+//   [...],
+//   [...],
+//   [...],
+//   [...],
+//   [...],
+//   [...],
+// ];
+
+export function createBoardTiles() {
+  const boardTiles = [];
   const rowLabel = ["8", "7", "6", "5", "4", "3", "2", "1"];
   const columnLabel = ["a", "b", "c", "d", "e", "f", "g", "h"];
 
   for (let i = 0; i < rowLabel.length; i++) {
-    const rowArr = [];
+    const row = [];
     for (let j = 0; j < columnLabel.length; j++) {
       if ((i + j) % 2 === 0) {
-        rowArr.push({
+        row.push({
           square: `${columnLabel[j]}${rowLabel[i]}`,
-          tileColor: "white",
+          tileColor: "w",
         });
       } else {
-        rowArr.push({
+        row.push({
           square: `${columnLabel[j]}${rowLabel[i]}`,
-          tileColor: "black",
+          tileColor: "b",
         });
       }
     }
-    boardArr.push(rowArr);
+    boardTiles.push(row);
   }
 
-  return boardArr;
+  return boardTiles;
 }

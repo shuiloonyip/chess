@@ -1,6 +1,7 @@
 import { useReducer } from "react";
 import Tile from "./Tile";
 import { chessReducer, createInitialState } from "../reducer";
+import { createBoardTiles } from "../util";
 import "./Board.css";
 
 function Board() {
@@ -13,7 +14,9 @@ function Board() {
     });
   }
 
-  const boardRender = state.board.map((row, i) => {
+  const boardTiles = createBoardTiles();
+
+  const board = boardTiles.map((row, i) => {
     return (
       <div className="row" key={i}>
         {row.map((tile, j) => {
@@ -22,7 +25,7 @@ function Board() {
               key={tile.square}
               tileColor={tile.tileColor}
               square={tile.square}
-              piece={state.chessObj.board()[i][j]}
+              piece={state.board[i][j]}
               onClickMove={handleClickMove}
               isSelected={state.selectedPiece === tile.square}
             />
@@ -32,7 +35,7 @@ function Board() {
     );
   });
 
-  return <div className="board">{boardRender}</div>;
+  return <div className="board">{board}</div>;
 }
 
 export default Board;

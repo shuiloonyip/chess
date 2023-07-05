@@ -14,7 +14,9 @@ function Tiles(props) {
   return (
     <div
       className={
-        "tile " + tileColor + `${isSelected && piece ? " highlight" : ""}`
+        "tile" +
+        `${tileColor === "w" ? " white" : " black"}` +
+        `${isSelected && piece ? " highlight" : ""}`
       }
       onClick={handleClick}
     >

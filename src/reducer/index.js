@@ -1,5 +1,4 @@
 import { Chess } from "chess.js";
-import { createBoard } from "../util";
 
 export function chessReducer(state, action) {
   switch (action.type) {
@@ -10,6 +9,10 @@ export function chessReducer(state, action) {
 }
 
 export function createInitialState() {
-  const initialChessObj = new Chess();
-  return { chessObj: initialChessObj, selectedPiece: "", board: createBoard() };
+  const chess = new Chess();
+  return {
+    chess: chess,
+    selectedPiece: "",
+    board: chess.board(),
+  };
 }
