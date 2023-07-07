@@ -1,34 +1,23 @@
-import { useReducer } from "react";
 import Tile from "./Tile";
-import { chessReducer, createInitialState } from "../reducer";
 import { createBoardTiles } from "../util";
 import "./Board.css";
 
-function Board() {
-  const [state, dispatch] = useReducer(chessReducer, null, createInitialState);
-
-  function handleClickMove(square) {
-    dispatch({
-      type: "SELECTED",
-      payload: { square: square },
-    });
-  }
-
+function Board({ board, selectedPiece, moves, onClickMove }) {
   const boardTiles = createBoardTiles();
 
-  const board = boardTiles.map((row, i) => {
+  const boardRender = boardTiles.map((row, i) => {
     return (
       <div className="row" key={i}>
         {row.map((tile, j) => {
           return (
             <Tile
               key={tile.square}
-              tileColor={tile.tileColor}
               square={tile.square}
-              piece={state.board[i][j]}
-              onClickMove={handleClickMove}
-              isSelected={state.selectedPiece === tile.square}
-              hightlightMove={state.moves.includes(tile.square)}
+              tileColor={tile.tileColor}
+              piece={board[i][j]}
+              isSelected={selectedPiece === tile.square}
+              hightlightMove={moves.includes(tile.square)}
+              onClickMove={onClickMove}
             />
           );
         })}
@@ -36,7 +25,7 @@ function Board() {
     );
   });
 
-  return <div className="board">{board}</div>;
+  return <div className="board">{boardRender}</div>;
 }
 
 export default Board;

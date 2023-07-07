@@ -2,16 +2,17 @@ import Piece from "./Piece";
 import "./Tile.css";
 
 function Tiles(props) {
-  const { tileColor } = props;
   const { square } = props;
+  const { tileColor } = props;
   const { piece } = props;
-  const { onClickMove } = props;
   const { isSelected } = props;
   const { hightlightMove } = props;
+  const { onClickMove } = props;
 
   function handleClick() {
     onClickMove(square);
   }
+
   return (
     <div
       className={
