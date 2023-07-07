@@ -7,6 +7,7 @@ function Tiles(props) {
   const { piece } = props;
   const { onClickMove } = props;
   const { isSelected } = props;
+  const { hightlightMove } = props;
 
   function handleClick() {
     onClickMove(square);
@@ -16,7 +17,8 @@ function Tiles(props) {
       className={
         "tile" +
         `${tileColor === "w" ? " white" : " black"}` +
-        `${isSelected && piece ? " highlight" : ""}`
+        `${isSelected && piece ? " highlight" : ""}` +
+        `${hightlightMove ? " highlight-move" : ""}`
       }
       onClick={handleClick}
     >

@@ -28,6 +28,7 @@ function Board() {
               piece={state.board[i][j]}
               onClickMove={handleClickMove}
               isSelected={state.selectedPiece === tile.square}
+              hightlightMove={state.moves.includes(tile.square)}
             />
           );
         })}
