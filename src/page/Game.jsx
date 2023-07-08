@@ -6,7 +6,14 @@ function Game() {
   const [state, dispatch] = useReducer(chessReducer, null, createInitialState);
 
   function handleClickMove(square) {
-    dispatch({
+    if (state.selectedPiece && state.moves.includes(square)) {
+      return dispatch({
+        type: "MOVE",
+        payload: { square: square },
+      });
+    }
+
+    return dispatch({
       type: "SELECTED",
       payload: { square: square },
     });

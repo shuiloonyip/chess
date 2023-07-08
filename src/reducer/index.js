@@ -4,8 +4,8 @@ export function chessReducer(state, action) {
   switch (action.type) {
     case "SELECTED": {
       const moves = state.chess.moves({ square: action.payload.square });
-      // Remove "N" from knight moves ['Nf3', 'Nh3']
-      const newMoves = moves.map((item) => item.replace("N", ""));
+      // Get last 2 letters from moves ['Nf3', 'Nh3']
+      const newMoves = moves.map((item) => item.slice(-2));
 
       return {
         ...state,
@@ -13,15 +13,31 @@ export function chessReducer(state, action) {
         moves: newMoves,
       };
     }
+    case "MOVE": {
+      const chessCopy = new Chess(state.fen);
+      chessCopy.move({ from: state.selectedPiece, to: action.payload.square });
+
+      return {
+        ...state,
+        chess: new Chess(chessCopy.fen()),
+        fen: chessCopy.fen(),
+        board: chessCopy.board(),
+        selectedPiece: "",
+        moves: [],
+      };
+    }
   }
 }
 
 export function createInitialState() {
   const chess = new Chess();
+
   return {
     chess: chess,
+    fen: chess.fen(),
     board: chess.board(),
     selectedPiece: "",
+    selectedTile: "",
     moves: [],
   };
 }
