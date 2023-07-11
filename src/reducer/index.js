@@ -4,8 +4,24 @@ export function chessReducer(state, action) {
   switch (action.type) {
     case "SELECTED": {
       const moves = state.chess.moves({ square: action.payload.square });
-      // Get last 2 letters from moves ['Nf3', 'Nh3']
-      const newMoves = moves.map((item) => item.slice(-2));
+      const newMoves = moves.map((item) => {
+        if (item === "O-O") {
+          if (action.payload.square === "e1") {
+            return "g1";
+          } else {
+            return "g8";
+          }
+        } else if (item === "O-O-O") {
+          if (action.payload.square === "e1") {
+            return "c1";
+          } else {
+            return "c8";
+          }
+        } else {
+          // regex remove symbols and uppercase
+          return item.replace(/[^a-z0-9]/g, "").slice(-2);
+        }
+      });
 
       return {
         ...state,
@@ -31,7 +47,6 @@ export function chessReducer(state, action) {
 
 export function createInitialState() {
   const chess = new Chess();
-
   return {
     chess: chess,
     fen: chess.fen(),
