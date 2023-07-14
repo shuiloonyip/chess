@@ -42,12 +42,25 @@ export function chessReducer(state, action) {
         moves: [],
       };
     }
+    case "NEWGAME": {
+      return {
+        ...state,
+        newGame: action.payload.newGame,
+      };
+    }
+    case "ENDGAME": {
+      return {
+        ...state,
+        newGame: action.payload.newGame,
+      };
+    }
   }
 }
 
 export function createInitialState() {
   const chess = new Chess();
   return {
+    newGame: true,
     chess: chess,
     fen: chess.fen(),
     board: chess.board(),

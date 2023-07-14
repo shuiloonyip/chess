@@ -1,10 +1,10 @@
-import Game from "./page/Game";
+import Chess from "./page/Chess";
 import "./App.css";
 
 function App() {
   return (
     <div>
-      <Game />
+      <Chess />
     </div>
   );
 }
