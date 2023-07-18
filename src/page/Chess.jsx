@@ -35,7 +35,7 @@ function Chess() {
   }
 
   return (
-    <div className="container mx-auto">
+    <div className="flex flex-col justify-center min-h-screen bg-slate-800">
       {state.newGame ? (
         <Menu onCreateNewGame={handleCreateNewGame} />
       ) : (

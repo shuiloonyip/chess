@@ -7,7 +7,7 @@ function Board({ board, selectedPiece, moves, onClickMove }) {
 
   const boardRender = boardTiles.map((row, i) => {
     return (
-      <div className="row" key={i}>
+      <div className="flex flex-row" key={i}>
         {row.map((tile, j) => {
           return (
             <Tile

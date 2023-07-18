@@ -16,7 +16,7 @@ function Tiles(props) {
   return (
     <div
       className={
-        "tile" +
+        "flex-1 aspect-square" +
         `${tileColor === "w" ? " white" : " black"}` +
         `${isSelected && piece ? " highlight" : ""}` +
         `${hightlightMove ? " highlight-move" : ""}`
