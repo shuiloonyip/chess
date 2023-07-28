@@ -20,10 +20,10 @@ function Chess() {
     });
   }
 
-  function handleCreateNewGame(bool) {
+  function handleCreateNewGame(newGameObj) {
     dispatch({
       type: "NEWGAME",
-      payload: { newGame: bool },
+      payload: newGameObj,
     });
   }
 

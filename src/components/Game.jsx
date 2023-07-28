@@ -6,7 +6,7 @@ function Game({ board, selectedPiece, moves, onClickMove, onEndGame }) {
   }
 
   return (
-    <div>
+    <div className="md:w-2/3 xl:w-1/2">
       <Board
         board={board}
         selectedPiece={selectedPiece}
