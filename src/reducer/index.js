@@ -31,6 +31,7 @@ export function chessReducer(state, action) {
     }
     case "MOVE": {
       const chessCopy = new Chess(state.fen);
+      const currentTurn = state.turn === "w" ? "b" : "w";
       chessCopy.move({ from: state.selectedPiece, to: action.payload.square });
 
       return {
@@ -40,6 +41,7 @@ export function chessReducer(state, action) {
         board: chessCopy.board(),
         selectedPiece: "",
         moves: [],
+        turn: currentTurn,
       };
     }
     case "NEWGAME": {
@@ -67,5 +69,6 @@ export function createInitialState() {
     selectedPiece: "",
     selectedTile: "",
     moves: [],
+    turn: "w",
   };
 }

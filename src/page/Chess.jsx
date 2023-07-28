@@ -45,6 +45,7 @@ function Chess() {
           moves={state.moves}
           onClickMove={handleClickMove}
           onEndGame={handleEndGame}
+          turn={state.turn}
         />
       )}
     </div>
