@@ -1,4 +1,6 @@
-function PlayerInfo({ turn, player }) {
+import Graveyard from "./Graveyard";
+
+function PlayerInfo({ turn, player, capture }) {
   return (
     <div className="flex p-4 text-white">
       <div className="flex self-center bg-white w-8 h-8 text-black">
@@ -6,7 +8,7 @@ function PlayerInfo({ turn, player }) {
       </div>
       <div className="flex-1 ml-4">
         <div>Player 1</div>
-        <div>Graveyard</div>
+        <Graveyard player={player} capture={capture} />
       </div>
       {turn === player ? (
         <div className="self-center">{"Your Turn"}</div>

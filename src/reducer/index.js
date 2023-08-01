@@ -31,8 +31,22 @@ export function chessReducer(state, action) {
     }
     case "MOVE": {
       const chessCopy = new Chess(state.fen);
-      const currentTurn = state.turn === "w" ? "b" : "w";
-      chessCopy.move({ from: state.selectedPiece, to: action.payload.square });
+      const nextTurn = state.turn === "w" ? "b" : "w";
+      const move = chessCopy.move({
+        from: state.selectedPiece,
+        to: action.payload.square,
+      });
+
+      let whiteCapture = state.whiteCapture;
+      let blackCapture = state.blackCapture;
+
+      if (move.captured && state.turn === "w") {
+        whiteCapture = [...state.whiteCapture, move.captured];
+      }
+
+      if (move.captured && state.turn === "b") {
+        blackCapture = [...state.blackCapture, move.captured];
+      }
 
       return {
         ...state,
@@ -41,7 +55,9 @@ export function chessReducer(state, action) {
         board: chessCopy.board(),
         selectedPiece: "",
         moves: [],
-        turn: currentTurn,
+        turn: nextTurn,
+        whiteCapture: whiteCapture,
+        blackCapture: blackCapture,
       };
     }
     case "NEWGAME": {
@@ -70,5 +86,7 @@ export function createInitialState() {
     selectedTile: "",
     moves: [],
     turn: "w",
+    whiteCapture: [],
+    blackCapture: [],
   };
 }
