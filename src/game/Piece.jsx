@@ -27,11 +27,9 @@ const chessPieces = {
   wr,
 };
 
-function Piece(props) {
-  const { piece } = props;
-
+function Piece({ piece, className }) {
   return (
-    <div className={"piece"}>
+    <div className={["piece", className].join(" ")}>
       <img
         src={chessPieces[`${piece.color + piece.type}`]}
         alt={`${piece.color + piece.type}`}

@@ -46,8 +46,7 @@ function Chess() {
           onClickMove={handleClickMove}
           onEndGame={handleEndGame}
           turn={state.turn}
-          whiteCapture={state.whiteCapture}
-          blackCapture={state.blackCapture}
+          capture={state.capture}
         />
       )}
     </div>

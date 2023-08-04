@@ -37,15 +37,14 @@ export function chessReducer(state, action) {
         to: action.payload.square,
       });
 
-      let whiteCapture = state.whiteCapture;
-      let blackCapture = state.blackCapture;
+      let capture = state.capture;
 
       if (move.captured && state.turn === "w") {
-        whiteCapture = [...state.whiteCapture, move.captured];
+        capture = { ...state.capture, w: [...state.capture.w, move.captured] };
       }
 
       if (move.captured && state.turn === "b") {
-        blackCapture = [...state.blackCapture, move.captured];
+        capture = { ...state.capture, b: [...state.capture.b, move.captured] };
       }
 
       return {
@@ -56,8 +55,7 @@ export function chessReducer(state, action) {
         selectedPiece: "",
         moves: [],
         turn: nextTurn,
-        whiteCapture: whiteCapture,
-        blackCapture: blackCapture,
+        capture: capture,
       };
     }
     case "NEWGAME": {
@@ -86,7 +84,6 @@ export function createInitialState() {
     selectedTile: "",
     moves: [],
     turn: "w",
-    whiteCapture: [],
-    blackCapture: [],
+    capture: { w: [], b: [] },
   };
 }
