@@ -47,6 +47,25 @@ export function chessReducer(state, action) {
         capture = { ...state.capture, b: [...state.capture.b, move.captured] };
       }
 
+      if (chessCopy.isGameOver()) {
+        console.log("GAME OVER");
+        if (chessCopy.isCheckmate()) {
+          console.log("CHECKMATE");
+          return {
+            ...state,
+            chess: new Chess(chessCopy.fen()),
+            fen: chessCopy.fen(),
+            board: chessCopy.board(),
+            selectedPiece: "",
+            moves: [],
+            turn: nextTurn,
+            capture: capture,
+            gameState: "checkmate",
+            score: { ...state.score, [state.turn]: state.score[state.turn]++ },
+          };
+        }
+      }
+
       return {
         ...state,
         chess: new Chess(chessCopy.fen()),
@@ -65,10 +84,7 @@ export function chessReducer(state, action) {
       };
     }
     case "ENDGAME": {
-      return {
-        ...state,
-        newGame: action.payload.newGame,
-      };
+      return createInitialState();
     }
   }
 }
@@ -85,5 +101,7 @@ export function createInitialState() {
     moves: [],
     turn: "w",
     capture: { w: [], b: [] },
+    score: { w: 0, b: 0 },
+    gameState: "",
   };
 }

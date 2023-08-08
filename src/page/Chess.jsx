@@ -47,6 +47,7 @@ function Chess() {
           onEndGame={handleEndGame}
           turn={state.turn}
           capture={state.capture}
+          score={state.score}
         />
       )}
     </div>
