@@ -36,18 +36,34 @@ export function chessReducer(state, action) {
         from: state.selectedPiece,
         to: action.payload.square,
       });
-
+      console.log(move);
       let capture = state.capture;
+      let moveCounter = state.moveCounter;
+      moveCounter = move.captured || move.piece === "p" ? 0 : moveCounter + 1;
+      let boardPositions = { ...state.boardPositions };
+      let boardPosition = chessCopy.fen().split(" ")[0];
+      const castled = move.san === "O-O" || move.san === "O-O-O";
+      if (move.captured || move.piece === "p" || castled) {
+        boardPositions = {};
+      } else {
+        if (boardPosition in boardPositions) {
+          let count = boardPositions[boardPosition];
+          boardPositions[boardPosition] = count + 1;
+        } else {
+          boardPositions[boardPosition] = 1;
+        }
+      }
 
       if (move.captured && state.turn === "w") {
         capture = { ...state.capture, w: [...state.capture.w, move.captured] };
       }
-
       if (move.captured && state.turn === "b") {
         capture = { ...state.capture, b: [...state.capture.b, move.captured] };
       }
+      console.log(boardPositions);
+      let threefold = Object.values(boardPositions).includes(3);
 
-      if (chessCopy.isGameOver()) {
+      if (chessCopy.isGameOver() || moveCounter === 100 || threefold) {
         console.log("GAME OVER");
         if (chessCopy.isCheckmate()) {
           console.log("CHECKMATE");
@@ -63,9 +79,29 @@ export function chessReducer(state, action) {
             gameState: "checkmate",
             score: { ...state.score, [state.turn]: state.score[state.turn]++ },
           };
+        } else if (chessCopy.isDraw() || moveCounter === 100 || threefold) {
+          const type = "draw";
+          console.log("DRAW");
+          if (chessCopy.isInsufficientMaterial()) {
+            type = "insufficient material";
+            console.log("INSUFFICIENT MATERIAL");
+          } else if (chessCopy.isStalemate()) {
+            type = "stalemate";
+            console.log("STALEMATE");
+          } else if (moveCounter === 100) {
+            console.log("50 MOVE RULE");
+          } else if (threefold) {
+            console.log("THREEFOLD REPETITION");
+          }
+          // 3 fold
+          // 50 move
+          return {
+            ...state,
+            gameState: "draw by",
+            score: { w: 0, b: 0 },
+          };
         }
       }
-
       return {
         ...state,
         chess: new Chess(chessCopy.fen()),
@@ -75,6 +111,8 @@ export function chessReducer(state, action) {
         moves: [],
         turn: nextTurn,
         capture: capture,
+        moveCounter: moveCounter,
+        boardPositions: boardPositions,
       };
     }
     case "NEWGAME": {
@@ -91,6 +129,7 @@ export function chessReducer(state, action) {
 
 export function createInitialState() {
   const chess = new Chess();
+  const boardPosition = chess.fen().split(" ")[0];
   return {
     newGame: true,
     chess: chess,
@@ -103,5 +142,7 @@ export function createInitialState() {
     capture: { w: [], b: [] },
     score: { w: 0, b: 0 },
     gameState: "",
+    moveCounter: 0,
+    boardPositions: { [boardPosition]: 1 },
   };
 }
