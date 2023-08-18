@@ -48,6 +48,7 @@ function Chess() {
           turn={state.turn}
           capture={state.capture}
           score={state.score}
+          gameState={state.gameState}
         />
       )}
     </div>
