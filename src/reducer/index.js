@@ -37,6 +37,11 @@ export function chessReducer(state, action) {
         to: action.payload.square,
       });
       console.log(move);
+      let moveHistory = {
+        ...state.moveHistory,
+        [state.turn]: [...state.moveHistory[state.turn], move.san],
+      };
+      console.log(moveHistory);
       let capture = state.capture;
       let moveCounter = state.moveCounter;
       moveCounter = move.captured || move.piece === "p" ? 0 : moveCounter + 1;
@@ -60,47 +65,44 @@ export function chessReducer(state, action) {
       if (move.captured && state.turn === "b") {
         capture = { ...state.capture, b: [...state.capture.b, move.captured] };
       }
-      console.log(boardPositions);
       let threefold = Object.values(boardPositions).includes(3);
-
+      let type = "draw";
+      let newScore = {};
       if (chessCopy.isGameOver() || moveCounter === 100 || threefold) {
         console.log("GAME OVER");
         if (chessCopy.isCheckmate()) {
-          console.log("CHECKMATE");
-          return {
-            ...state,
-            chess: new Chess(chessCopy.fen()),
-            fen: chessCopy.fen(),
-            board: chessCopy.board(),
-            selectedPiece: "",
-            moves: [],
-            turn: nextTurn,
-            capture: capture,
-            gameState: "checkmate",
-            score: { ...state.score, [state.turn]: state.score[state.turn]++ },
+          type = "checkmate";
+          newScore = {
+            ...state.score,
+            [state.turn]: state.score[state.turn]++,
           };
         } else if (chessCopy.isDraw() || moveCounter === 100 || threefold) {
-          const type = "draw";
-          console.log("DRAW");
+          newScore = { ...state.score };
           if (chessCopy.isInsufficientMaterial()) {
-            type = "insufficient material";
-            console.log("INSUFFICIENT MATERIAL");
+            type = "Draw by insufficient material";
           } else if (chessCopy.isStalemate()) {
             type = "stalemate";
-            console.log("STALEMATE");
           } else if (moveCounter === 100) {
-            console.log("50 MOVE RULE");
+            type = "Draw by 50 move rule";
           } else if (threefold) {
-            console.log("THREEFOLD REPETITION");
+            type = "Draw by threefold repetition";
           }
           // 3 fold
           // 50 move
-          return {
-            ...state,
-            gameState: "draw by",
-            score: { w: 0, b: 0 },
-          };
         }
+        return {
+          ...state,
+          chess: new Chess(chessCopy.fen()),
+          fen: chessCopy.fen(),
+          board: chessCopy.board(),
+          selectedPiece: "",
+          moves: [],
+          turn: nextTurn,
+          capture: capture,
+          gameState: type,
+          score: newScore,
+          moveHistory: moveHistory,
+        };
       }
       return {
         ...state,
@@ -113,6 +115,7 @@ export function chessReducer(state, action) {
         capture: capture,
         moveCounter: moveCounter,
         boardPositions: boardPositions,
+        moveHistory: moveHistory,
       };
     }
     case "NEWGAME": {
@@ -123,6 +126,16 @@ export function chessReducer(state, action) {
     }
     case "ENDGAME": {
       return createInitialState();
+    }
+    case "CONTINUENEWGAME": {
+      const initialState = createInitialState();
+      return { ...initialState, newGame: false, score: { ...state.score } };
+    }
+    case "RESIGNGAME": {
+      const initialState = createInitialState();
+      const opponent = state.turn === "w" ? "b" : "w";
+      const score = { ...state.score, [opponent]: state.score[opponent]++ };
+      return { ...initialState, newGame: false, score };
     }
   }
 }
@@ -144,5 +157,6 @@ export function createInitialState() {
     gameState: "",
     moveCounter: 0,
     boardPositions: { [boardPosition]: 1 },
+    moveHistory: { w: [], b: [] },
   };
 }

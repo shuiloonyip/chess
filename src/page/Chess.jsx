@@ -20,7 +20,7 @@ function Chess() {
     });
   }
 
-  function handleCreateNewGame(newGameObj) {
+  function handleNewGame(newGameObj) {
     dispatch({
       type: "NEWGAME",
       payload: newGameObj,
@@ -34,10 +34,23 @@ function Chess() {
     });
   }
 
+  function handleContinueNewGame() {
+    dispatch({
+      type: "CONTINUENEWGAME",
+    });
+  }
+
+  function handleResignGame(bool) {
+    dispatch({
+      type: "RESIGNGAME",
+      payload: { newGame: bool },
+    });
+  }
+
   return (
     <div className="flex flex-col justify-center min-h-screen bg-slate-800">
       {state.newGame ? (
-        <Menu onCreateNewGame={handleCreateNewGame} />
+        <Menu onCreateNewGame={handleNewGame} />
       ) : (
         <Game
           board={state.board}
@@ -45,6 +58,8 @@ function Chess() {
           moves={state.moves}
           onClickMove={handleClickMove}
           onEndGame={handleEndGame}
+          onContinueNewGame={handleContinueNewGame}
+          onResignGame={handleResignGame}
           turn={state.turn}
           capture={state.capture}
           score={state.score}
